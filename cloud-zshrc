@@ -3,7 +3,7 @@ autoload -Uz vcs_info compinit promptinit colors && colors
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
-RPROMPT="%{$fg_bold[green]%}\$vcs_info_msg_0_%{$reset_color%}"
+RPROMPT="%{$fg_bold[red]%}\$vcs_info_msg_0_%{$reset_color%}"
 PROMPT="☁️  %n@%m $ "
 zstyle ':vcs_info:git:*' formats '%b'
 compinit
