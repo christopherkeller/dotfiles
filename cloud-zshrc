@@ -13,6 +13,7 @@ promptinit
 export EDITOR="/usr/bin/vi"
 
 #Set local path
+typeset -aU path
 export PATH=$HOME/bin:$PATH
 
 # Fix the damn pager settings
