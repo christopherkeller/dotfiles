@@ -1,0 +1,115 @@
+# https://github.com/yyuu/pyenv
+PYENV_ROOT=("$HOME/.pyenv")
+eval "$($HOME/.pyenv/bin/pyenv init -)"
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+typeset -aU path
+path=("$HOME/bin" "$PYENV_ROOT/bin" $path)
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="agnoster"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git textmate osx)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+export PAGER=/usr/bin/less		
+export PATH=$PATH:/opt/pkg/go14/bin
+eval "$(hub alias -s)"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Set the EDITOR
+export EDITOR="$HOME/bin/mate -w"
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# My favorite aliases
+alias chime="defaults write com.apple.PowerChime ChimeOnAllHardware -bool true; open /System/Library/CoreServices/PowerChime.app &"
+alias cluster="$HOME/bin/tmux-cssh/tmux-cssh -cs macmini"
+alias downloads="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent'"
+alias ls='ls -F'
+alias lstree="find . -type d | sed -e 1d -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|-/'"
+alias resetLaunchServices="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain system -domain user"
+
+# calculate free memory on OSX
+free () {
+	free=`/usr/bin/vm_stat | /usr/bin/grep "Pages free" | /usr/bin/awk '{print $3}' | /usr/bin/cut -d . -f1`
+	gigs=`/bin/echo 'scale=2;' $free '* 4096 / 1024 / 1024 / 1024' | /usr/bin/bc`
+	/bin/echo $gigs'G'
+}
+
+mkramdisk () {
+	# args is size in gigs, eg mkramdisk 2g
+	gigs=`/bin/echo $1 | cut -d 'g' -f1`
+	blocks=`/bin/echo $gigs ' * 1024 * 2048' | /usr/bin/bc`
+	/usr/sbin/diskutil erasevolume HFS+ RAM `/usr/bin/hdiutil attach -nomount ram://$blocks`
+}
+
+# set the title on an iterm2 window
+function title {
+	echo -ne "\033];$@\007"
+}
