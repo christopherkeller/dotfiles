@@ -4,7 +4,8 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 RPROMPT="%{$fg_bold[red]%}\$vcs_info_msg_0_%{$reset_color%}"
-PROMPT="☁️  %n@%m $ "
+IP=$(/usr/sbin/ip addr show dev eth0 | /usr/bin/grep "inet " | /usr/bin/cut -d" " -f6 | /usr/bin/cut -d/ -f1)
+PROMPT="☁️  %n@$IP (%m) $ "
 zstyle ':vcs_info:git:*' formats '%b'
 compinit
 promptinit
