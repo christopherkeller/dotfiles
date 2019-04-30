@@ -11,7 +11,7 @@ compinit
 promptinit
 
 # Set the EDITOR
-export EDITOR="vi"
+export EDITOR=vi
 
 #Set local path
 typeset -aU path
