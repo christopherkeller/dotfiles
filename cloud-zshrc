@@ -5,7 +5,7 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 RPROMPT="%{$fg_bold[red]%}\$vcs_info_msg_0_%{$reset_color%}"
 IP=$(ip addr show dev eth0 | grep "inet " | cut -d" " -f6 | cut -d/ -f1)
-PROMPT="☁️  %n@$IP (`echo $HOSTNAME | cut -d'-' -f1`) $ "
+PROMPT="(cloud) %n@$IP (`echo $HOSTNAME | cut -d'.' -f1`) $ "
 zstyle ':vcs_info:git:*' formats '%b'
 compinit
 promptinit
@@ -18,6 +18,16 @@ typeset -aU path
 
 # Fix the damn pager settings
 export PAGER=/usr/bin/less
+
+# History
+export SAVEHIST=10000
+export HISTFILE=/home/ec2-user/keller/.zsh_history
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_FIND_NO_DUPS
+export HISTTIMEFORMAT="[%F %T] "
 
 # My favorite aliases
 alias ls='ls -F'
