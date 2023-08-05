@@ -1,3 +1,10 @@
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
 # Git stuff
 autoload -Uz vcs_info compinit promptinit colors && colors
 precmd_vcs_info() { vcs_info }
