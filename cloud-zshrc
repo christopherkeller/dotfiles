@@ -28,7 +28,7 @@ export PAGER=/usr/bin/less
 
 # History
 export SAVEHIST=10000
-export HISTFILE=/home/ec2-user/keller/.zsh_history
+export HISTFILE=$HOME/.zsh_history
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
 setopt INC_APPEND_HISTORY
